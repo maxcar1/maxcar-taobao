@@ -63,5 +63,7 @@ public interface TaoBaoService {
 
 	Result updateCar(CarEntity car,List<CarPicture> getPicList);
 
-    Result addMarketCar(CarEntity carEntity, List<CarPicture> getPicList);
+    Result addMarketCar(CarEntity carEntity, List<CarPicture> getPicList) throws Exception;
+
+	Result addCzMarketCar(CarEntity carEntity, List<CarPicture> getPicList) throws Exception;
 }

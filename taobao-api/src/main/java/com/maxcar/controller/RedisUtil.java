@@ -30,12 +30,12 @@ public  class RedisUtil {
     private static JedisPool jedisPool;
     private static ReentrantLock lock = new ReentrantLock();
     private RedisTemplate<String, Object> redisTemplate;
-    private final RedisUtil.Keys keys = new RedisUtil.Keys();
-    private final RedisUtil.Strings strings = new RedisUtil.Strings();
-    private final RedisUtil.Lists lists = new RedisUtil.Lists();
-    private final RedisUtil.Sets sets = new RedisUtil.Sets();
-    private final RedisUtil.Hash hash = new RedisUtil.Hash();
-    private final RedisUtil.SortSet sortset = new RedisUtil.SortSet();
+    private final Keys keys = new Keys();
+    private final Strings strings = new Strings();
+    private final Lists lists = new Lists();
+    private final Sets sets = new Sets();
+    private final Hash hash = new Hash();
+    private final SortSet sortset = new SortSet();
 
     private RedisUtil() {
     }
@@ -100,27 +100,27 @@ public  class RedisUtil {
         jedis.close();
     }
 
-    public RedisUtil.Keys keys() {
+    public Keys keys() {
         return this.keys;
     }
 
-    public RedisUtil.Strings strings() {
+    public Strings strings() {
         return this.strings;
     }
 
-    public RedisUtil.Lists lists() {
+    public Lists lists() {
         return this.lists;
     }
 
-    public RedisUtil.Sets sets() {
+    public Sets sets() {
         return this.sets;
     }
 
-    public RedisUtil.Hash hash() {
+    public Hash hash() {
         return this.hash;
     }
 
-    public RedisUtil.SortSet sortSet() {
+    public SortSet sortSet() {
         return this.sortset;
     }
 

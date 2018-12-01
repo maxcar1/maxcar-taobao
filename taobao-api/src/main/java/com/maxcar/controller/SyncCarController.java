@@ -4,6 +4,7 @@ import com.maxcar.core.exception.ResultCode;
 import com.maxcar.core.utils.CollectionUtil;
 import com.maxcar.core.utils.Result;
 import com.maxcar.core.utils.StringUtils;
+import com.maxcar.core.utils.redis.RedisUtil;
 import com.maxcar.entity.CarEntity;
 import com.maxcar.entity.CarPicture;
 import com.maxcar.service.TaoBaoService;
@@ -189,6 +190,7 @@ public class SyncCarController {
 	 */
 	@RequestMapping(value="/cars",method=RequestMethod.POST)
 	public Result syncCarToTaoBao(HttpServletRequest req,@RequestBody JSONObject params) {
+		sessionKey="";
 		Result result = new Result();
 		Map classMap = new HashMap();
 		classMap.put("picList",CarPicture.class);
@@ -209,6 +211,7 @@ public class SyncCarController {
 			sessionKey = prop.getProperty("marketIdSessionKey" + carEntity.getMarket());
 //			sessionKey = "6201c01c5ZZ36c63cc00dd0203b3eafcef61a302f3469c74052462357";
 			//sessionKey = "6202606b03389ceg4494cb17e6441dc751e558b7a234ae73430314546";
+			System.out.print("sessionKey======================="+sessionKey);
 			if(StringUtils.isBlank(sessionKey)) {
 				result.setMessage("没有sessionkey，请生成!");
 				result.setResultCode(ResultCode.NOT_FOUNT.getCode());
@@ -218,23 +221,34 @@ public class SyncCarController {
 		//1.获取图片
 		System.out.println("开始上传图片" + System.currentTimeMillis());
 		List<CarPicture> getPicList = carEntity.getPicList();
-		for (int i = 0; i < getPicList.size(); i++) {
-			if(getPicList.get(i).getType()==0) {
-				getPicList.remove(i);
+		if(getPicList!=null&&!getPicList.isEmpty()){
+			for (int i = 0; i < getPicList.size(); i++) {
+				if(getPicList.get(i).getType()==0) {
+					getPicList.remove(i);
+				}
+			}
+			System.out.println(getPicList.size());
+			if(CollectionUtil.listIsNotEmpty(getPicList)) {
+				result = taoBaoService.addImg(carEntity , getPicList,projectUrl,sessionKey);
+				//Map map = result.getDatas();
 			}
 		}
-		System.out.println(getPicList.size());
-		if(CollectionUtil.listIsNotEmpty(getPicList)) {
-			 result = taoBaoService.addImg(carEntity , getPicList,projectUrl,sessionKey);
-			 //Map map = result.getDatas();
-		}
+
 		System.out.println("上传图片结束" + System.currentTimeMillis());
 		carEntity.setAccessToken(sessionKey);
 		if(carEntity.getMarketPrice()==null||"".equals(carEntity.getMarketPrice())||"0".equals(carEntity.getMarketPrice())) {
 			carEntity.setMarketPrice(carEntity.getEvaluatePrice());
 		}
-		
-		result = taoBaoService.addMarketCar(carEntity, getPicList);
+		try {
+			if ("010".equals(carEntity.getMarket())){
+				result = taoBaoService.addMarketCar(carEntity, getPicList);
+			}else {
+				result = taoBaoService.addCzMarketCar(carEntity, getPicList);
+			}
+		}catch (Exception E){
+
+		}
+logger.info("asdddddddddddddddddddddddddddddd========="+result);
 		//com.alibaba.fastjson.JSONObject json =  (com.alibaba.fastjson.JSONObject) result.getItem();
 		//判断返回结果
 		/*if(json.containsKey("item_add_response")) {
