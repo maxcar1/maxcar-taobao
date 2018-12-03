@@ -18,10 +18,7 @@
             border-top: 1px solid #ccc;">
     <div style="text-align: center;color: #1B2EDB;font-size: 28px;padding: 20px 0;font-weight: bold;">
         <p style="margin: 10px 0;">
-            常州阿里智慧汽车城
-        </p>
-        <p style="margin: 10px 0;">
-        ${客户名称}
+            常州阿里二手车智慧市场
         </p>
         <p>0519-68000111</p>
     </div>

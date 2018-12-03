@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.maxcar.core.utils.redis.RedisUtil;
+import com.maxcar.controller.RedisUtil;
 import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1833,7 +1833,7 @@ public class TaoBaoServiceImpl implements TaoBaoService {
 		}else if(car.getModelName()!=null&&car.getModelName().contains("T")) {
 			unit = car.getModelName().substring(car.getModelName().indexOf("T")-3,car.getModelName().indexOf("T")+1 );
 		}
-		String title = "二手车 "+car.getBrandName().trim()+car.getModelYear()+car.getSeriesName()+unit+"常州阿里智慧汽车城 "+"0519-68000111".replaceAll("二手车", "").trim();
+		String title =car.getBrandName().trim()+car.getModelYear()+car.getSeriesName()+unit+"常州阿里智慧汽车城 "+"0519-68000111";
 		if(title.length()>30) {
 			title=title.substring(0, title.indexOf("常"));
 		}
@@ -1844,7 +1844,6 @@ public class TaoBaoServiceImpl implements TaoBaoService {
 		}*/
 
 		// 车辆详情
-		map.put("客户名称","德威威尼斯二手车市场");
 
 		logger.info("车辆详情文件路径：path {}", new String[] { getWebClassesPath() });
 		request.setDesc(FreeMarkUtil.getHtmlString(map, "czCarInfo", getWebClassesPath()));
