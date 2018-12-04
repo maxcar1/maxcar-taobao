@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.maxcar.controller.RedisUtil;
+import com.maxcar.core.utils.redis.RedisUtil;
 import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1759,7 +1759,7 @@ public class TaoBaoServiceImpl implements TaoBaoService {
 		request.setSkuProperties("14829532:3292081,14829532:72110507");
 		request.setSkuQuantities("1,1");
 		//订金
-		String subscription ="3000,";
+		String subscription ="2000,";
 
 		request.setSkuPrices(subscription+ marketPrice);
 		request.setSkuOuterIds("3782914410043,3782914410044");
